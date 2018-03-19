@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    tools:context="runvr.oslanka.cnn.selecttable.ImageUploadActivity">
+
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/tv_start_time"
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
+                android:layout_weight="1"
+                android:background="@drawable/shape_bg_white_range"
+                android:gravity="center"
+                android:hint="开始时间"
+                android:paddingBottom="6dp"
+                android:paddingTop="6dp"
+                android:textColor="#222222"
+
+                android:textColorHint="#999999"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_end_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_weight="1"
+                android:background="@drawable/shape_bg_white_range"
+                android:gravity="center"
+                android:hint="结束时间"
+                android:paddingBottom="6dp"
+
+                android:paddingTop="6dp"
+                android:textColor="#222222"
+
+                android:textColorHint="#999999"
+                android:textSize="14sp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+
+            <EditText
+                android:id="@+id/tv_ydh"
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
+                android:layout_weight="1"
+                android:background="@drawable/shape_bg_white_range"
+                android:gravity="center"
+                android:hint="订单号"
+                android:inputType="number"
+                android:paddingBottom="6dp"
+                android:paddingTop="6dp"
+                android:textColor="#222222"
+
+                android:textColorHint="#999999"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/tv_user"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_weight="1"
+                android:background="@drawable/shape_bg_white_range"
+                android:gravity="center"
+                android:hint="上传者"
+                android:paddingBottom="6dp"
+
+                android:paddingTop="6dp"
+                android:textColor="#222222"
+
+                android:textColorHint="#999999"
+                android:textSize="14sp" />
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/begin_select"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
+            android:text="查询"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/colorPrimary"
+            android:visibility="gone" />
+    </LinearLayout>
+
+
+
+
+    <com.cloud.lashou.widget.recycle.SlideRecycleView
+        android:id="@+id/recycle_view"
+        android:layout_width="match_parent"
+        android:layout_below="@id/layout"
+        android:layout_marginTop="15dp"
+        android:layout_height="match_parent" />
+    <!-- Login progress -->
+
+    <RelativeLayout
+        android:id="@+id/data_picker_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:layout_below="@+id/layout"
+        android:layout_marginTop="15dp"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+        <cn.aigestudio.datepicker.views.DatePicker
+            android:id="@+id/data_picker"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/login_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        tools:visibility="visible" />
+</RelativeLayout>
