@@ -13,9 +13,9 @@
     <LinearLayout
         android:id="@+id/layout"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:layout_height="wrap_content"
         android:orientation="vertical">
 
 
@@ -102,22 +102,23 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:visibility="gone"
             android:layout_marginTop="15dp"
-            android:background="@color/colorPrimary" />
+            android:background="@color/colorPrimary"
+            android:visibility="gone" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/layout_center"
+    <com.cloud.lashou.widget.recycle.SlideRecycleView
+        android:id="@+id/recycle_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/tv_take_photo"
         android:layout_below="@id/layout"
         android:layout_marginTop="15dp"
         android:orientation="vertical"
         tools:visibility="visible">
 
 
-    </LinearLayout>
+    </com.cloud.lashou.widget.recycle.SlideRecycleView>
 
 
     <!-- Login progress -->

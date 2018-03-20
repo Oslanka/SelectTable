@@ -61,6 +61,15 @@ public class SelectBean {
         private String ydh;
         private String tyr;
         private String shdw;
+        private boolean isSelect;
+
+        public boolean isSelect() {
+            return isSelect;
+        }
+
+        public void setSelect(boolean select) {
+            isSelect = select;
+        }
 
         public String getTyrq() {
             return tyrq;

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <external-path
+        name="files_path"
+        path="lashou/" />
+    <root-path name="root" path="" />
+    <files-path name="files" path="lashou/" />
+    <cache-path name="cache" path="lashou/" />
+    <external-path name="external" path="lashou/" />
+    <external-files-path name="name" path="path" />
+    <external-cache-path name="name" path="path" />
+</paths>

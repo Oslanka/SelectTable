@@ -12,15 +12,19 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
-import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cloud.lashou.utils.AppUtils;
+import com.cloud.lashou.widget.pulltorefresh.PullToRefreshBase;
+import com.cloud.lashou.widget.recycle.SlideRecycleView;
+import com.cloud.lashou.widget.recycle.SlideRecycleViewAdapter;
+import com.cloud.lashou.widget.recycle.SlideRecycleViewItemDecoration;
+import com.cloud.lashou.widget.recycle.SlideRecycleViewItemVerticalDecoration;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -29,6 +33,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -49,9 +54,10 @@ public class ImageUploadActivity extends BaseActivity {
     private TextView tv_mudiquyu;
     private TextView tv_take_photo;
     private TextView tyr;
-    private LinearLayout layoutCenter;
+    //    private LinearLayout layoutCenter;
+    private List<SelectBean.DataBean> selectBeans = new ArrayList<>();
+    private UpdateListAdapter updateListAdapter;
     private SelectBean.DataBean dataBean;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,20 +65,19 @@ public class ImageUploadActivity extends BaseActivity {
         tv_ydxh = findViewById(R.id.tv_ydxh);
         tv_mudiquyu = findViewById(R.id.tv_mudiquyu);
         tyr = findViewById(R.id.tyr);
-        layoutCenter = findViewById(R.id.layout_center);
+//        layoutCenter = findViewById(R.id.layout_center);
         tv_take_photo = findViewById(R.id.tv_take_photo);
 
 
-      /*  SlideRecycleView mRecycleView = findViewById(R.id.recycle_view);
+        SlideRecycleView mRecycleView = findViewById(R.id.recycle_view);
         SlideRecycleViewItemVerticalDecoration item = new SlideRecycleViewItemVerticalDecoration(this,
                 SlideRecycleViewItemDecoration.VERTICAL_LIST, getResources().getDrawable(R.drawable.driver_line12));
         mRecycleView.getRefreshableView().addItemDecoration(item);  //添加分割线
         mRecycleView.setScrollingWhileRefreshingEnabled(false); //设置刷新的时候不可滑动
         mRecycleView.getRefreshableView().setLayoutManager(new LinearLayoutManager(this)); //添加布局管理器
-        mRecycleView.setMode(PullToRefreshBase.Mode.BOTH);
-        selectBeans = new ArrayList<>();
-        listAdapter = new ScenceListAdapter(this, selectBeans, 0);
-        mRecycleView.getRefreshableView().setAdapter(listAdapter);*/
+        mRecycleView.setMode(PullToRefreshBase.Mode.DISABLED);
+        updateListAdapter = new UpdateListAdapter(this, selectBeans, 0);
+        mRecycleView.getRefreshableView().setAdapter(updateListAdapter);
         mProgressView = findViewById(R.id.login_progress);
         findViewById(R.id.begin_select).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,6 +102,24 @@ public class ImageUploadActivity extends BaseActivity {
                 });
             }
         });
+        updateListAdapter.setOnItemClickListener(new SlideRecycleViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClickListener(int position) {
+                for (int i = 0; i < selectBeans.size(); i++) {
+                    if (i != position)
+                        selectBeans.get(i).setSelect(false);
+                }
+                SelectBean.DataBean dataBean = selectBeans.get(position);
+                dataBean.setSelect(!dataBean.isSelect());
+                if (dataBean.isSelect()) {
+                    ImageUploadActivity.this.dataBean = dataBean;
+                } else {
+                    ImageUploadActivity.this.dataBean = null;
+
+                }
+                updateListAdapter.notifyDataSetChanged();
+            }
+        });
 //        initData();
 
     }
@@ -117,15 +140,20 @@ public class ImageUploadActivity extends BaseActivity {
             @Override
             public void onResponse(Call<SelectBean> call, Response<SelectBean> response) {
                 showProgress(false);
+                selectBeans.clear();
+                ImageUploadActivity.this.dataBean = null;
                 tv_take_photo.setVisibility(View.GONE);
                 if (response.isSuccessful()) {
                     SelectBean body = response.body();
                     if (body.getCode() == 0) {
-                        if (body.getSize() > 1) {
-                            Toast.makeText(ImageUploadActivity.this, "查询数据不唯一，请精确查询", Toast.LENGTH_SHORT).show();
-                        } else if (body.getSize() == 1) {
+                        if (body.getSize() > 0) {
                             Toast.makeText(ImageUploadActivity.this, "查询到数据", Toast.LENGTH_SHORT).show();
-                            dataBean = body.getData().get(0);
+//                            dataBean = body.getData().get(0);
+                            selectBeans.addAll(body.getData());
+                            if (body.getSize() == 1) {
+                                ImageUploadActivity.this.dataBean = body.getData().get(0);
+                            }
+                            updateListAdapter.notifyDataSetChanged();
                             refreshView();
                         } else {
                             Toast.makeText(ImageUploadActivity.this, "没有查询到数据", Toast.LENGTH_SHORT).show();
@@ -144,28 +172,7 @@ public class ImageUploadActivity extends BaseActivity {
     }
 
     private void refreshView() {
-        try {
-            layoutCenter.removeAllViews();
-            LayoutInflater from = LayoutInflater.from(this);
-            CardView layout = (CardView) from.inflate(R.layout.activity_iamge_upload_layout, null);
-
-            ((TextView) layout.findViewById(R.id.ydh)).setText("运单号 : " + dataBean.getYdxh());
-            ((TextView) layout.findViewById(R.id.time)).setText("托运日期 : " + dataBean.getTyrq());
-            ((TextView) layout.findViewById(R.id.from)).setText(dataBean.getJbren());
-            ((TextView) layout.findViewById(R.id.name)).setText(dataBean.getTyr());
-            ((TextView) layout.findViewById(R.id.to)).setText(dataBean.getYhzh());
-            ((TextView) layout.findViewById(R.id.who)).setText(dataBean.getShdw());
-            layoutCenter.addView(layout);
-//        layoutCenter.addView(getTextView("运单号 : ", dataBean.getYdxh(), from));
-//        layoutCenter.addView(getTextView("托运日期 : ", dataBean.getTyrq(), from));
-//        layoutCenter.addView(getTextView("始发站 : ", dataBean.getJbren(), from));
-//        layoutCenter.addView(getTextView("目的区域 : ", dataBean.getYhzh(), from));
-//        layoutCenter.addView(getTextView("收货人 : ", dataBean.getShdw(), from));
-//        layoutCenter.addView(getTextView("拍照上传", dataBean.getShdw(), from));
-            tv_take_photo.setVisibility(View.VISIBLE);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        tv_take_photo.setVisibility(View.VISIBLE);
     }
 
     private TextView getTextView(String name, String text, LayoutInflater from) {
@@ -182,18 +189,18 @@ public class ImageUploadActivity extends BaseActivity {
          * 在启动拍照之前最好先判断一下sdcard是否可用
          */
         try {
-//            String state = Environment.getExternalStorageState(); //拿到sdcard是否可用的状态码
-//            if (state.equals(Environment.MEDIA_MOUNTED)) {   //如果可用
+            String state = Environment.getExternalStorageState(); //拿到sdcard是否可用的状态码
+            if (state.equals(Environment.MEDIA_MOUNTED)) {   //如果可用
 
 
 //                Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
 //                Intent captureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 //                startActivityForResult(captureIntent, TAKE_PHOTO);
-            getImageFromCamera();
-            this.callBackPhoto = callBackPhoto;
-//            } else {
-//                Toast.makeText(ImageUploadActivity.this, "sdcard不可用", Toast.LENGTH_SHORT).show();
-//            }
+                getImageFromCamera();
+                this.callBackPhoto = callBackPhoto;
+            } else {
+                Toast.makeText(ImageUploadActivity.this, "sdcard不可用", Toast.LENGTH_SHORT).show();
+            }
         } catch (SecurityException e) {
             Toast.makeText(this, "请设置中打开应用的相机权限", Toast.LENGTH_SHORT).show();
         }
@@ -202,12 +209,15 @@ public class ImageUploadActivity extends BaseActivity {
     private String mCurrentPhotoPath;
 
     public void getImageFromCamera() {
-
+        if (dataBean == null) {
+            Toast.makeText(this, "请选择条目", Toast.LENGTH_SHORT).show();
+            return;
+        }
         String fileName = "Temp_camera" + ".jpg";
         File cropFile = null;
         try {
             cropFile = new File(getExternalCacheDir().getAbsolutePath(), fileName);
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -220,7 +230,7 @@ public class ImageUploadActivity extends BaseActivity {
 
         Uri uri;
         if (Build.VERSION.SDK_INT >= 24) {
-            uri = FileProvider.getUriForFile(getApplicationContext(), "com.lashou.cloud.fileprovider", cropFile);
+            uri = FileProvider.getUriForFile(getApplicationContext(), "runvr.oslanka.cnn.selecttable.fileprovider", cropFile);
         } else {
             uri = Uri.fromFile(cropFile);
         }
@@ -231,7 +241,7 @@ public class ImageUploadActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == TAKE_PHOTO) {
+        if (resultCode == RESULT_OK && requestCode == TAKE_PHOTO) {
             if (!TextUtils.isEmpty(mCurrentPhotoPath)) {
                 Bitmap bitmap = BitmapFactory.decodeFile((mCurrentPhotoPath));
                 File file = compressImage(bitmap);
@@ -281,11 +291,12 @@ public class ImageUploadActivity extends BaseActivity {
 
 
     public void upload(final File file) {
+        if (file == null) return;
         showProgress(true);
         String user = SharedPreferencesUtil.getString("user", "");
         String nickName = SharedPreferencesUtil.getString("nickName", "");
         String value = TextUtils.isEmpty(nickName) ? user : nickName;
-        HttpFactory.getInstance().uploadContent(dataBean == null ? "888" : dataBean.getYdh(), value).enqueue(new Callback<InsertContentBean>() {
+        HttpFactory.getInstance().uploadContent(dataBean.getYdh(), value).enqueue(new Callback<InsertContentBean>() {
             @Override
             public void onResponse(Call<InsertContentBean> call, Response<InsertContentBean> response) {
                 showProgress(false);
@@ -364,6 +375,7 @@ public class ImageUploadActivity extends BaseActivity {
      * @param bitmap
      */
     public File compressImage(Bitmap bitmap) {
+        if (bitmap == null) return null;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
         int options = 100;

@@ -9,10 +9,14 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <ImageView
+        <TextView
             android:id="@+id/imageView"
             android:layout_width="0dp"
             android:layout_height="100dp"
+            android:text="查看大图"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:background="@color/colorPrimary"
             android:layout_weight="1"
             android:scaleType="centerInside" />
 

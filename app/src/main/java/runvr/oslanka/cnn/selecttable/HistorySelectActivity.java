@@ -43,6 +43,7 @@ public class HistorySelectActivity extends BaseActivity {
     private ScenceListAdapter listAdapter;
     private SlideRecycleView mRecycleView;
     private SmartCall<SelectPicBean> call;
+    private View cancel_date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,17 +51,7 @@ public class HistorySelectActivity extends BaseActivity {
         initVIew();
 
         setListener();
-        datePicker.setMode(DPMode.SINGLE);
-        datePicker.setDate(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH) + 1);
-        datePicker.setOnDatePickedListener(new DatePicker.OnDatePickedListener() {
-            @Override
-            public void onDatePicked(String date) {
 
-                TextView textView = position == 1 ? tv_end_time : tv_start_time;
-                textView.setText(date);
-                dataPickerLayout.setVisibility(View.GONE);
-            }
-        });
 
     }
 
@@ -81,6 +72,7 @@ public class HistorySelectActivity extends BaseActivity {
         tv_ydh = findViewById(R.id.tv_ydh);
         tv_user = findViewById(R.id.tv_user);
         datePicker = findViewById(R.id.data_picker);
+        cancel_date = findViewById(R.id.cancel_date);
         begin_select = findViewById(R.id.begin_select);
         mProgressView = findViewById(R.id.login_progress);
         mRecycleView = findViewById(R.id.recycle_view);
@@ -136,6 +128,25 @@ public class HistorySelectActivity extends BaseActivity {
                 AppUtils.hideSoftKeybord(HistorySelectActivity.this);
                 beginSelect();
 
+            }
+        });
+        datePicker.setMode(DPMode.SINGLE);
+        datePicker.setDate(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH) + 1);
+        datePicker.setOnDatePickedListener(new DatePicker.OnDatePickedListener() {
+            @Override
+            public void onDatePicked(String date) {
+
+                TextView textView = position == 1 ? tv_end_time : tv_start_time;
+                textView.setText(date);
+                dataPickerLayout.setVisibility(View.GONE);
+            }
+        });
+        cancel_date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (position==1)tv_end_time.setText("");
+                if (position==0)tv_start_time.setText("");
+                dataPickerLayout.setVisibility(View.GONE);
             }
         });
         /*dataPickerLayout.findViewById(R.id.select_time).setOnClickListener(new View.OnClickListener() {

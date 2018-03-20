@@ -4,11 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.cloud.lashou.widget.recycle.SlideRecycleViewAdapter;
 import com.cloud.lashou.widget.recycle.SlideViewHolder;
 
@@ -34,7 +31,7 @@ public class ScenceListAdapter extends SlideRecycleViewAdapter<SelectPicBean.Dat
 
     @Override
     public void convert(SlideViewHolder holder, final SelectPicBean.DataBean item) {
-        final ImageView imageView = holder.getView(R.id.imageView);
+        final TextView imageView = holder.getView(R.id.imageView);
         TextView ydh = holder.getView(R.id.ydh);
         TextView time = holder.getView(R.id.time);
         TextView who = holder.getView(R.id.who);
@@ -49,7 +46,7 @@ public class ScenceListAdapter extends SlideRecycleViewAdapter<SelectPicBean.Dat
 
             }
         });
-        Glide.with(getmContext()).load(baseUrl + "/images?id=" + item.getId()).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(imageView);
+//        Glide.with(getmContext()).load(baseUrl + "/images?id=" + item.getId()).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(imageView);
 
     }
 }
