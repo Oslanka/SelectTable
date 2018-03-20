@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <com.cloud.lashou.widget.MyViewPager
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:id="@+id/service_pager">
+    </com.cloud.lashou.widget.MyViewPager>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#EBEBEB"/>
+    <LinearLayout
+        android:layout_gravity="center"
+        android:background="#FDFDFD"
+        android:id="@+id/ll_dot"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:orientation="horizontal"
+        android:showDividers="middle"
+        android:gravity="center">
+    </LinearLayout>
+</LinearLayout>

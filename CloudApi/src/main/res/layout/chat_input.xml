@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <View android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:background="@color/line" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btn_voice"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/ic_voice_input"
+            android:visibility="gone" />
+
+        <ImageButton
+            android:id="@+id/btn_keyboard"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/ic_keyboard_input"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/voice_panel"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_voice_normal"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="按住 说话"
+            android:textColor="@color/text_gray1"
+            android:textSize="16sp"
+            android:visibility="gone">
+
+        </TextView>
+
+        <LinearLayout
+            android:id="@+id/text_panel"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_inputbox"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <EditText
+                android:textColorHint="#C8C8C8"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/input"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/msg_edit_bg"
+                android:hint="想说点什么"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="#C8C8C8"
+                android:textCursorDrawable="@null"
+                android:textSize="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
+
+            <ImageButton
+                android:id="@+id/btnEmoticon"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/ic_face_input"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/btn_add"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/ic_add_input" />
+
+        <ImageButton
+            android:id="@+id/btn_send"
+            android:layout_width="44dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/btn_send" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/morePanel"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:orientation="vertical"
+        android:background="@color/background_gray1">
+        <View android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/line" />
+        <net.lucode.hackware.magicindicator.MagicIndicator
+            android:id="@+id/indicator"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" />
+        <android.support.v4.view.ViewPager
+            android:background="#FDFDFD"
+            android:id="@+id/serve_pager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </android.support.v4.view.ViewPager>
+    </LinearLayout>
+    <View
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#DCDCDC"/>
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/emoticonPanel"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:orientation="vertical"
+        tools:visibility="visible"
+        android:background="@color/background_gray1">
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <View
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#EBEBEB"/>
+    <GridView
+        android:background="#FCFCFC"
+        android:id="@+id/service_gv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:numColumns="4">
+    </GridView>
+
+</LinearLayout>
