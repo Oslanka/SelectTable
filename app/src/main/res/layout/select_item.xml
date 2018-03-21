@@ -36,6 +36,13 @@
                 android:textColor="#222222"
                 android:textSize="14sp" />
             <TextView
+                android:id="@+id/ydxh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#222222"
+                android:textSize="14sp" />
+            <TextView
                 android:id="@+id/who"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

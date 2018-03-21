@@ -54,6 +54,15 @@ public class SelectPicBean {
         private String sctime;
         private long ydh;
         private String who;
+        private String ydxh;
+
+        public String getYdxh() {
+            return ydxh;
+        }
+
+        public void setYdxh(String ydxh) {
+            this.ydxh = ydxh;
+        }
 
         public String getWho() {
             return who;

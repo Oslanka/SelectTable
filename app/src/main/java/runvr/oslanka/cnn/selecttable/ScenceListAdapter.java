@@ -33,10 +33,12 @@ public class ScenceListAdapter extends SlideRecycleViewAdapter<SelectPicBean.Dat
     public void convert(SlideViewHolder holder, final SelectPicBean.DataBean item) {
         final TextView imageView = holder.getView(R.id.imageView);
         TextView ydh = holder.getView(R.id.ydh);
+        TextView ydxh = holder.getView(R.id.ydxh);
         TextView time = holder.getView(R.id.time);
         TextView who = holder.getView(R.id.who);
         who.setText("上传者    ： " + item.getWho());
-        ydh.setText("运单号    ： " + item.getYdh());
+        ydh.setText("运单号    ： " + item.getYdxh());
+        ydxh.setText("运单序号    ： " + item.getYdh());
         time.setText("上传时间：  \n" + item.getSctime());
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
