@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/shape_bg_white_range"
             android:gravity="center"
-            android:hint="运单序号"
+            android:hint="单号"
 
             android:inputType="number"
             android:paddingBottom="6dp"

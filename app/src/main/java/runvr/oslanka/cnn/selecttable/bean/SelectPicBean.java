@@ -1,5 +1,6 @@
 package runvr.oslanka.cnn.selecttable.bean;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -51,7 +52,7 @@ public class SelectPicBean {
 
         private String id;
         private String sctime;
-        private String ydh;
+        private long ydh;
         private String who;
 
         public String getWho() {
@@ -79,11 +80,8 @@ public class SelectPicBean {
         }
 
         public String getYdh() {
-            return ydh;
+            return  new BigDecimal(ydh).toPlainString();
         }
 
-        public void setYdh(String ydh) {
-            this.ydh = ydh;
-        }
     }
 }

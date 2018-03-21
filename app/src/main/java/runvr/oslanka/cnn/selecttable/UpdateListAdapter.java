@@ -29,9 +29,9 @@ public class UpdateListAdapter extends SlideRecycleViewAdapter<SelectBean.DataBe
     @Override
     public void convert(SlideViewHolder holder, final SelectBean.DataBean dataBean) {
 
-        ((TextView) holder.getView(R.id.ydh)).setText("运单号 : " + dataBean.getYdxh());
-        ((TextView) holder.getView(R.id.time)).
-                setText("托运日期 : " + dataBean.getTyrq());
+        ((TextView) holder.getView(R.id.ydh)).setText("运单号 : " + dataBean.getYdh());
+        ((TextView) holder.getView(R.id.ydxh)).setText("运单序号 : " + dataBean.getYdxh());
+        ((TextView) holder.getView(R.id.time)).setText("托运日期 : " + dataBean.getTyrq());
         ((TextView) holder.getView(R.id.from)).setText(dataBean.getJbren());
         ((TextView) holder.getView(R.id.name)).setText(dataBean.getTyr());
         ((TextView) holder.getView(R.id.to)).setText(dataBean.getYhzh());

@@ -296,7 +296,7 @@ public class ImageUploadActivity extends BaseActivity {
         String user = SharedPreferencesUtil.getString("user", "");
         String nickName = SharedPreferencesUtil.getString("nickName", "");
         String value = TextUtils.isEmpty(nickName) ? user : nickName;
-        HttpFactory.getInstance().uploadContent(dataBean.getYdh(), value).enqueue(new Callback<InsertContentBean>() {
+        HttpFactory.getInstance().uploadContent(dataBean.getYdxh(), value).enqueue(new Callback<InsertContentBean>() {
             @Override
             public void onResponse(Call<InsertContentBean> call, Response<InsertContentBean> response) {
                 showProgress(false);
