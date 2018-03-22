@@ -16,6 +16,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,11 +47,12 @@ import runvr.oslanka.cnn.selecttable.bean.InsertContentBean;
 import runvr.oslanka.cnn.selecttable.bean.SelectBean;
 import runvr.oslanka.cnn.selecttable.bean.UpLoadImageResponse;
 import runvr.oslanka.cnn.selecttable.http.HttpFactory;
+import runvr.oslanka.cnn.selecttable.util.AllCapTransformationMethod;
 import runvr.oslanka.cnn.selecttable.util.SharedPreferencesUtil;
 
 public class ImageUploadActivity extends BaseActivity {
 
-    private TextView tv_ydxh;
+    private EditText tv_ydxh;
     private TextView tv_mudiquyu;
     private TextView tv_take_photo;
     private TextView tyr;
@@ -68,7 +70,7 @@ public class ImageUploadActivity extends BaseActivity {
 //        layoutCenter = findViewById(R.id.layout_center);
         tv_take_photo = findViewById(R.id.tv_take_photo);
 
-
+        tv_ydxh.setTransformationMethod(new AllCapTransformationMethod(true));
         SlideRecycleView mRecycleView = findViewById(R.id.recycle_view);
         SlideRecycleViewItemVerticalDecoration item = new SlideRecycleViewItemVerticalDecoration(this,
                 SlideRecycleViewItemDecoration.VERTICAL_LIST, getResources().getDrawable(R.drawable.driver_line12));

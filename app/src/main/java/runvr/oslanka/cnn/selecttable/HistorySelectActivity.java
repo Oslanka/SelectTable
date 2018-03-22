@@ -28,6 +28,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import runvr.oslanka.cnn.selecttable.bean.SelectPicBean;
 import runvr.oslanka.cnn.selecttable.http.HttpFactory;
+import runvr.oslanka.cnn.selecttable.util.AllCapTransformationMethod;
 
 public class HistorySelectActivity extends BaseActivity {
 
@@ -70,6 +71,7 @@ public class HistorySelectActivity extends BaseActivity {
         tv_start_time = findViewById(R.id.tv_start_time);
         tv_end_time = findViewById(R.id.tv_end_time);
         tv_ydh = findViewById(R.id.tv_ydh);
+        tv_ydh.setTransformationMethod(new AllCapTransformationMethod(true));
         tv_user = findViewById(R.id.tv_user);
         datePicker = findViewById(R.id.data_picker);
         cancel_date = findViewById(R.id.cancel_date);
