@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,8 +27,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cloud.lashou.utils.AppUtils;
+import com.cloud.lashou.utils.LogUtils;
 
+import java.net.URL;
+import java.net.URLConnection;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import retrofit2.Call;
@@ -41,8 +48,9 @@ import runvr.oslanka.cnn.selecttable.util.SharedPreferencesUtil;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends BaseActivity  implements LoaderCallbacks<Cursor> {
-
+public class LoginActivity extends BaseActivity implements LoaderCallbacks<Cursor> {
+    public static final String PassTime = "2018-08-27";
+    public static final boolean canPass = false;
     /**
      * Id to identity READ_CONTACTS permission request.
      */
@@ -77,7 +85,6 @@ public class LoginActivity extends BaseActivity  implements LoaderCallbacks<Curs
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_login);
         // Set up the login form.
-
 
 
         CheckPermission checkPermission = CheckPermission.getInstance(this);
@@ -176,30 +183,50 @@ public class LoginActivity extends BaseActivity  implements LoaderCallbacks<Curs
             showProgress(true);
 //            mAuthTask = new UserLoginTask(email, password);
 //            mAuthTask.execute((Void) null);
+//            yyyy-MM-dd HH:mm:ss
 
-            HttpFactory.getInstance().login(email, mPasswordView.getText().toString()).enqueue(new Callback<UserBean>() {
+            getNetTime(new CallBackTime() {
                 @Override
-                public void onResponse(Call<UserBean> call, Response<UserBean> response) {
-                    showProgress(false);
-                    if (response.isSuccessful()) {
-                        if (response.body().isIsLogin()) {
-                            Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
-                            SharedPreferencesUtil.putString("user", response.body().getData().getUsername());
-                            SharedPreferencesUtil.putString("nickName", response.body().getData().getNickName());
-                            startActivity(new Intent(LoginActivity.this, SelectActivity.class));
-                            finish();
-                        } else {
-                            Toast.makeText(LoginActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
+                public void call(final String time) {
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (PassTime.compareTo(time) > 0) {
+
+                                HttpFactory.getInstance().login(email, mPasswordView.getText().toString()).enqueue(new Callback<UserBean>() {
+                                    @Override
+                                    public void onResponse(Call<UserBean> call, Response<UserBean> response) {
+                                        showProgress(false);
+                                        if (response.isSuccessful()) {
+                                            if (response.body().isIsLogin()) {
+                                                Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                                                SharedPreferencesUtil.putString("user", response.body().getData().getUsername());
+                                                SharedPreferencesUtil.putString("nickName", response.body().getData().getNickName());
+                                                startActivity(new Intent(LoginActivity.this, SelectActivity.class));
+                                                finish();
+                                            } else {
+                                                Toast.makeText(LoginActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<UserBean> call, Throwable t) {
+                                        showProgress(false);
+                                        Toast.makeText(LoginActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            } else {
+                                showProgress(false);
+                                Toast.makeText(LoginActivity.this, "已过期，请联系管理员", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                }
+                    });
 
-                @Override
-                public void onFailure(Call<UserBean> call, Throwable t) {
-                    showProgress(false);
-                    Toast.makeText(LoginActivity.this, "登录失败", Toast.LENGTH_SHORT).show();
                 }
             });
+
         }
     }
 
@@ -360,5 +387,36 @@ public class LoginActivity extends BaseActivity  implements LoaderCallbacks<Curs
             showProgress(false);
         }
     }*/
+    private void getNetTime(final CallBackTime callBackTime) {
+        if (canPass) {
+            callBackTime.call("0000");
+        } else {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    URL url = null;//取得资源对象
+                    try {
+                        url = new URL("http://www.baidu.com");
+                        //url = new URL("http://www.ntsc.ac.cn");//中国科学院国家授时中心
+                        //url = new URL("http://www.bjtime.cn");
+                        URLConnection uc = url.openConnection();//生成连接对象
+                        uc.connect(); //发出连接
+                        long ld = uc.getDate(); //取得网站日期时间
+                        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTimeInMillis(ld);
+                        final String format = formatter.format(calendar.getTime());
+                        callBackTime.call(format);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+        }
+    }
+
+    public interface CallBackTime {
+        void call(String time);
+    }
 }
 
