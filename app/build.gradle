@@ -21,12 +21,54 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def outputFile = output.outputFile
+            //这里修改文件名
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                if (variant.buildType.name.contains('release')) {
+                    outputFileName = "${variant.productFlavors[0].name}-A-${defaultConfig.versionName}-${releaseTime()}-release.apk"
+                } else if (variant.buildType.name.contains('debug')) {
+                    outputFileName = "${variant.productFlavors[0].name}-C-${defaultConfig.versionName}-${releaseTime()}-debug.apk"
+                }
+            }
+        }
+    }
+    signingConfigs {
+        release {
+            storeFile file("selectWeb")
+            storePassword "oslanka"
+            keyAlias "key0"
+            keyPassword "oslanka"
+        }
+    }
+
+    flavorDimensions "color"
+    productFlavors {
+        s_430 {
+            buildConfigField "String", "PIC_SIZE", '"430"'
+            dimension "color"
+        }
+        s_450 {
+            buildConfigField "String", "PIC_SIZE", '"450"'
+            dimension "color"
+        }
+        s_480 {
+            buildConfigField "String", "PIC_SIZE", '"480"'
+            dimension "color"
+        }
+    }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'cn.aigestudio.datepicker:DatePicker:2.2.0'
+    api 'cn.aigestudio.datepicker:DatePicker:2.2.0'
     implementation project(':CloudApi')
     implementation 'com.android.support:cardview-v7:26.0.0-alpha1'
+}
+
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
 }

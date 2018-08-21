@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '27.0.3'
     useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
@@ -25,29 +25,29 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.jakewharton:disklrucache:2.0.2'
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    api fileTree(include: ['*.jar'], dir: 'libs')
+    api 'com.jakewharton:disklrucache:2.0.2'
+    api 'com.squareup.retrofit2:retrofit:2.1.0'
     //修改成2.0版本
-    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
-    compile 'com.github.bumptech.glide:glide:3.8.0'
-    compile 'jp.wasabeef:glide-transformations:2.0.2'
-    compile 'com.google.guava:guava:18.0'
-    compile 'com.android.support:recyclerview-v7:26.1.0'
-    compile 'com.android.support:appcompat-v7:26.1.0'
-    compile 'com.nineoldandroids:library:2.4.0'
-    compile 'com.android.support:design:26.0.0-alpha1'
-    compile files('libs/bugly_2.4.0_imsdk_release.jar')
-    //    compile files('libs/imsdk.jar')
-    //    compile files('libs/mobilepb.jar')
-    //    compile files('libs/qalsdk.jar')
-    //    compile files('libs/soload.jar')
-    //    compile files('libs/tls_sdk.jar')
-    //    compile files('libs/wup-1.0.0-SNAPSHOT.jar')
-    //    compile files('libs/commons-io-2.4.jar')
-    //    compile 'com.github.hackware1993:MagicIndicator:1.5.0'
-    compile 'com.airbnb.android:lottie:2.1.0'
-    //    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'cn.dreamtobe.kpswitch:library:1.6.0'
+    api 'com.squareup.retrofit2:converter-gson:2.1.0'
+    api 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    api 'com.github.bumptech.glide:glide:3.8.0'
+    api 'jp.wasabeef:glide-transformations:2.0.2'
+    api 'com.google.guava:guava:18.0'
+    api 'com.android.support:recyclerview-v7:26.1.0'
+    api 'com.android.support:appcompat-v7:26.1.0'
+    api 'com.nineoldandroids:library:2.4.0'
+    api 'com.android.support:design:26.0.0-alpha1'
+    api files('libs/bugly_2.4.0_imsdk_release.jar')
+    //    api files('libs/imsdk.jar')
+    //    api files('libs/mobilepb.jar')
+    //    api files('libs/qalsdk.jar')
+    //    api files('libs/soload.jar')
+    //    api files('libs/tls_sdk.jar')
+    //    api files('libs/wup-1.0.0-SNAPSHOT.jar')
+    //    api files('libs/commons-io-2.4.jar')
+    //    api 'com.github.hackware1993:MagicIndicator:1.5.0'
+    api 'com.airbnb.android:lottie:2.1.0'
+    //    api 'com.android.support.constraint:constraint-layout:1.0.2'
+    api 'cn.dreamtobe.kpswitch:library:1.6.0'
 }
