@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,6 +28,7 @@ import android.widget.Toast;
 
 import com.cloud.lashou.utils.AppUtils;
 
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.DateFormat;
@@ -35,12 +37,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import runvr.oslanka.cnn.selecttable.bean.UserBean;
 import runvr.oslanka.cnn.selecttable.http.HttpFactory;
 import runvr.oslanka.cnn.selecttable.util.CheckPermission;
+import runvr.oslanka.cnn.selecttable.util.HttpsUtils;
 import runvr.oslanka.cnn.selecttable.util.SharedPreferencesUtil;
 
 /**
@@ -183,6 +188,8 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
 //            mAuthTask.execute((Void) null);
 //            yyyy-MM-dd HH:mm:ss
 
+//            String conf = "https://github.com/Oslanka/oslanka.github.io/blob/master/conf/conf.json";
+//test(conf);
             getNetTime(new CallBackTime() {
                 @Override
                 public void call(final String time) {
@@ -411,6 +418,32 @@ public class LoginActivity extends BaseActivity implements LoaderCallbacks<Curso
                 }
             }).start();
         }
+    }
+
+
+    public void test(final String url) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+//                    OkHttpClient client = new OkHttpClient();//创建okhttp实例
+                    OkHttpClient.Builder builder = new OkHttpClient.Builder();
+                    HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory();
+                    builder.sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager);
+                    Request request = new Request.Builder()
+                            .url(url).build();
+
+                    okhttp3.Call call = builder.build().newCall(request);
+                    okhttp3.Response response = call.execute();
+                    if (response.isSuccessful()) {
+                        Log.i("tag ===================", "httpGet: " + response.body().string());
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }).start();
     }
 
     public interface CallBackTime {
